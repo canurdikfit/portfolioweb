@@ -1,5 +1,6 @@
 'use client'
 import GlobalApi from "@/app/Utils/GlobalApi";
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
 function Awards() {
@@ -33,12 +34,14 @@ function Awards() {
           return (
             <div
               key={index}
-              className="h-40 sm:h-72 lg:h-52 overflow-hidden group/awards"
+              className="h-40 sm:h-72 lg:h-52 overflow-hidden group/awards relative"
             >
-              <img
+              <Image
                 className="h-full w-full object-cover object-center group-hover/awards:scale-125 transition duration-500 ease-out"
                 src={awardImg.attributes?.url}
                 alt="Awards Gotten"
+                fill={true}
+                size='100%'
               />
             </div>
           );
