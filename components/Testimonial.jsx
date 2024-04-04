@@ -62,7 +62,9 @@ function Testimonial() {
             <p className="text-base">
               Over 16,000 <br className="hidden md:block" /> impacted MSME’s
             </p>
-            <h3 className="lg:mt-10 md:mt-6 mt-3 text-2xl md:text-4xl lg:text-5xl">Testimonials</h3>
+            <h3 className="lg:mt-10 md:mt-6 mt-3 text-2xl md:text-4xl lg:text-5xl">
+              Testimonials
+            </h3>
           </div>
           <div className="md:col-span-2 w-full">
             <div className="h-9 md:h-12 w-12 relative md:mb-10 mb-5 flex">
@@ -71,6 +73,7 @@ function Testimonial() {
                 sizes="100%"
                 fill={true}
                 className="object-contain"
+                alt="icon"
               />
             </div>
             <div className="w-full relative max-w-[90vw]">
