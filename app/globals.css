@@ -2,32 +2,64 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+@font-face {
+  font-family: "fustra";
+  src: url(../Fonts/Frastha-Bold.ttf);
+  font-weight: 700;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+  text-decoration: none;
 }
 
+/* ----------------- GENERAL STYLING --------------- */
+html,
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+  position: relative;
+  margin: 0;
+  padding: 0;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+main{
+  overflow: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "fustra";
+  font-weight: 700;
+}
+
+.large_accomplishment::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  top: 0;
+  right: 0;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(42,211,168,0) 63%, rgba(0,0,0,1) 96%);
+  width: 100%;
+  height: 100%;
+  @apply z-0 hidden dark:block
+}
+
+.navbar_sm {
+  @apply lg:hidden w-3/4 sm:w-1/2 backdrop-blur bg-navbar h-screen 
+  absolute inset-y-0 left-0 -z-10 translate-x-0 transition-transform duration-500 ease-in-out;
+}
+
+.navbar_lg {
+  @apply lg:hidden w-3/4 sm:w-1/2 backdrop-blur bg-navbar h-screen absolute inset-y-0 left-0 z-40 -translate-x-full transition-transform duration-500 ease-in-out;
 }
