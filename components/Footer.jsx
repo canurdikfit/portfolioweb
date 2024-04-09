@@ -33,12 +33,12 @@ const Footer = () => {
               </ul>
               <ul className="flex flex-col gap-5">
                 <li className="hover:text-primary transition-all duration-300 hover:-translate-x-1">
-                  <Link href={'./'} rel="noopener noreferrer">
+                  <Link href={'/'} rel="noopener noreferrer">
                     Awards and Honors
                   </Link>
                 </li>
                 <li className="hover:text-primary transition-all duration-300 hover:-translate-x-1">
-                  <Link href={'./'} rel="noopener noreferrer">
+                  <Link href={'/'} rel="noopener noreferrer">
                     Career
                   </Link>
                 </li>
