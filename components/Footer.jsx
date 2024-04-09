@@ -48,7 +48,7 @@ const Footer = () => {
               <p className="mb-3 text-sm">Need Link Business mentor?</p>
               <Link
                 className="py-3 px-5 bg-primaryReduced rounded-lg md:inline-block block text-center hover:bg-primary text-base transition-all duration-500"
-                href="http://"
+                href="/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
