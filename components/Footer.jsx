@@ -80,7 +80,7 @@ const FooterLinks = [
   },
   {
     name: "Project",
-    to: "/projects",
+    to: "/project",
   },
   {
     name: "Contact",
