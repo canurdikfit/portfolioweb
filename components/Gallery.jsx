@@ -5,7 +5,7 @@ import Image from "next/image";
 import Vector from "@/imgs/Vector.png";
 
 function Gallery({ values }) {
-  const targetRef = useRef(null);
+  const targetRef = useRef();
   const { scrollYProgress } = useScroll({
     target: targetRef,
   });
