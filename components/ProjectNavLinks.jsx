@@ -8,7 +8,7 @@ function ProjectNavLinks({ nav, page }) {
   const getPrevAndNext = useCallback(() => {
     setNext(page === nav.length - 1 ? nav[0] : nav[page + 1]);
     setPrev(page === 0 ? nav[nav.length - 1] : nav[page - 1]);
-  }, [prev, next]);
+  }, [page]);
 
   useEffect(() => {
     getPrevAndNext();
