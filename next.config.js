@@ -10,7 +10,7 @@ module.exports = {
         },
         {
           protocol: "https",
-          hostname: "res.cloudinary.com",
+          hostname: "images.ctfassets.net",
           port: "",
         },
       ],

@@ -16,7 +16,7 @@ function AccomplishmentDex({ Accomplishments }) {
                 }  h-full w-full z-0 top-0 left-0 right-0 bottom-0 transition duration-500 delay-150 ease-in-out`}
               >
                 <Image
-                  src={acomplish.attributes?.image?.data?.attributes?.url}
+                  src={"https:" + acomplish.image}
                   className="object-cover object-center"
                   alt="Accomlishments"
                   fill={true}
@@ -26,9 +26,7 @@ function AccomplishmentDex({ Accomplishments }) {
               </div>
 
               <h3
-                className={`relative ${
-                  index === 1 && "left-32"
-                } ${
+                className={`relative ${index === 1 && "left-32"} ${
                   index === 2 && "left-64"
                 } ${
                   index === 3 && "left-32"
@@ -51,7 +49,7 @@ function AccomplishmentDex({ Accomplishments }) {
                 >
                   0{index + 1}.
                 </span>
-                <p className="max-w-md">{acomplish.attributes.title}</p>
+                <p className="max-w-md">{acomplish.title}</p>
               </h3>
             </li>
           );

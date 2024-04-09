@@ -1,18 +1,13 @@
 "use client";
 import Image from "next/image";
-import React, { useRef, useState, useEffect } from "react";
-// Import Swiper React components
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-
-// Import Swiper styles
 import "swiper/css";
-
-// import required modules
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import AnkaraImg from "@/imgs/ankara.png";
 import Testimonia from "@/imgs/icons/testimonial.svg";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
-import GlobalApi from "@/app/Utils/GlobalApi";
+import { client } from "@/Utils/GlobalApi";
 
 function Testimonial() {
   const [testimon, setTestimon] = useState([]);
@@ -37,15 +32,33 @@ function Testimonial() {
     });
   };
 
-  useEffect(() => {
-    getTestimonial_();
+  const cleanUpTestimon = useCallback((rawData) => {
+    const cleanTestimon = rawData.map((item) => {
+      const { sys, fields } = item;
+      const { id } = sys;
+      const comment = fields.comment;
+      const person = fields.person;
+      const update = { id, comment, person };
+      return update;
+    });
+    setTestimon(cleanTestimon);
   }, []);
 
-  const getTestimonial_ = () => {
-    GlobalApi.getTestimonial().then((resp) => {
-      setTestimon(resp.data.data);
-    });
-  };
+  const getTestimonialContent = useCallback(async () => {
+    try {
+      const resp = await client.getEntries({ content_type: "testimonial" });
+      const responce = resp.items;
+      if (responce) {
+        cleanUpTestimon(responce);
+      } else setTestimon([]);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [cleanUpTestimon]);
+
+  useEffect(() => {
+    getTestimonialContent();
+  }, [getTestimonialContent]);
 
   return (
     <section className="pb-20">
@@ -79,7 +92,6 @@ function Testimonial() {
             <div className="w-full relative max-w-[90vw]">
               <Swiper
                 spaceBetween={30}
-                loop={true}
                 ref={SlideRef}
                 onSlideChange={onSlideChange}
                 centeredSlides={true}
@@ -92,10 +104,10 @@ function Testimonial() {
               >
                 {testimon.map((item, index) => (
                   <SwiperSlide key={index} className="text-base md:text-lg">
-                    {item.attributes?.comment} - <b>{item.attributes?.name}</b>
+                    {item.comment} - <b>{item.person}</b>
                   </SwiperSlide>
                 ))}
-                <SwiperSlide>
+                <SwiperSlide className="text-base md:text-lg">
                   Isimeme Whyte consistently demonstrates an unwavering
                   commitment to excellence, setting a remarkable standard for
                   others to aspire to. - <b>Agbonyinma Ernest Nosakhare</b>

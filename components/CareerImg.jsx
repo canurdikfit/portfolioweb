@@ -1,23 +1,40 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
-import People from "../imgs/icons/career-people.png";
-import Trade from "../imgs/icons/career-trade.png";
-import Dollar from "../imgs/icons/career-dollar-circle.png";
-import GlobalApi from "@/app/Utils/GlobalApi";
+import { client } from "@/Utils/GlobalApi";
 
 const CareerImg = () => {
   const [career, setCareer] = useState([]);
 
-  useEffect(() => {
-    getCareer();
+  const cleanUpCareer = useCallback((rawData) => {
+    const cleanCareer = rawData.map((item) => {
+      const { sys, fields } = item;
+      const { id } = sys;
+      const value = fields.value;
+      const description = fields.description;
+      const image = fields.image.fields.file.url;
+      const icon = fields.icon.fields.file.url;
+      const update = { id, value, description, image, icon };
+      return update;
+    });
+    setCareer(cleanCareer);
   }, []);
 
-  const getCareer = () => {
-    GlobalApi.getCareer().then((resp) => {
-      setCareer(resp.data.data);
-    });
-  };
+  const getCareerContent = useCallback(async () => {
+    try {
+      const resp = await client.getEntries({ content_type: "career" });
+      const responce = resp.items;
+      if (responce) {
+        cleanUpCareer(responce);
+      } else setCareer([]);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [cleanUpCareer]);
+
+  useEffect(() => {
+    getCareerContent();
+  }, [getCareerContent]);
 
   return (
     <div className="my-12">
@@ -30,7 +47,7 @@ const CareerImg = () => {
             >
               <div className="absolute inset-y-0 inset-x-0 z-0 h-full w-full transition-all duration-300 ease-linear">
                 <Image
-                   src={careerImg.attributes?.backImage?.data?.attributes?.url}
+                  src={"https:" + careerImg.image}
                   className="h-full w-full object-cover object-center"
                   fill={true}
                   alt="Career Images"
@@ -46,15 +63,19 @@ const CareerImg = () => {
                     index === 2 ? "bg-[#fab3001a]" : ""
                   } mb-5`}
                 >
-                  <Image src={careerImg.attributes?.icon?.data?.attributes?.url} alt="Career Icon" width={35} height={35}/>
-
+                  <Image
+                    src={"https:" + careerImg.icon}
+                    alt="Career Icon"
+                    width={35}
+                    height={35}
+                  />
                 </div>
                 <h2 className="text-3xl sm:text-4xl text-white transition-all duration-300 ease-linear">
-                  {careerImg.attributes.value}
+                  {careerImg.value}
                   <sub className="text-base font-bold">{careerImg.sign}</sub>
                 </h2>
                 <p className="text-base text-white/90 transition-all duration-300 ease-linear">
-                  {careerImg.attributes.description}
+                  {careerImg.description}
                 </p>
               </div>
             </div>

@@ -4,9 +4,8 @@ import { motion, useTransform, useScroll } from "framer-motion";
 import Image from "next/image";
 import Vector from "@/imgs/Vector.png";
 
-function Gallery({ images }) {
+function Gallery({ values }) {
   const targetRef = useRef(null);
-  const gallery = images.data;
   const { scrollYProgress } = useScroll({
     target: targetRef,
   });
@@ -16,7 +15,7 @@ function Gallery({ images }) {
   return (
     <section
       ref={targetRef}
-      className="overflow-visible md:h-[500vh] h-fit pt-16 pb-40"
+      className="overflow-visible lg:h-[500vh] h-fit pt-16 pb-40"
     >
       <div className="sticky top-0 h-screen lg:flex hidden place-items-center overflow-hidden">
         <motion.div
@@ -51,19 +50,20 @@ function Gallery({ images }) {
               <Image src={Vector} width={30} height={30} alt="Vector" />
             </div>
           </div>
-          {images.attributes?.gallery?.data.map((card, index) => {
+          {values.map((card, index) => {
             return (
-              <div
-                key={index}
-                className="h-80 overflow-hidden md:max-w-md w-full relative flex-shrink-0 group/hori"
-              >
-                <Image
-                  className="h-full w-full object-cover group-hover/hori:scale-125 group-hover/hori:rotate-6 transition duration-500"
-                  src={card.attributes?.url}
-                  fill={true}
-                  sizes="100%"
-                  alt="Event"
-                />
+              <div key={index} className='flex items-start gap-3 flex-shrink-0 w-full'>
+                {card.fields.gallery.map((items, _) => (
+                  <div key={_} className="h-80 overflow-hidden md:max-w-md w-full relative flex-shrink-0 group/hori">
+                    <Image
+                      className="h-full w-full object-cover group-hover/hori:scale-125 group-hover/hori:rotate-6 transition duration-500"
+                      src={"https:" + items.fields.file.url}
+                      fill={true}
+                      sizes="100%"
+                      alt="Event"
+                    />
+                  </div>
+                ))}
               </div>
             );
           })}
@@ -95,19 +95,20 @@ function Gallery({ images }) {
           </div>
         </div>
         <div className="flex flex-col lg:flex-row gap-3 w-full">
-          {images.attributes?.gallery?.data?.map((residue, index) => {
+          {values.map((residue, index) => {
             return (
-              <div
-                key={index}
-                className="h-80 overflow-hidden lg:max-w-md w-full flex-shrink-0 relative"
-              >
-                <Image
-                  className="h-full w-full object-cover"
-                  src={residue.attributes?.url}
-                  fill={true}
-                  sizes="100%"
-                  alt="Event"
-                />
+              <div key={index}>
+                {residue.fields.gallery.map((items, _) => (
+                  <div key={_} className="h-80 overflow-hidden lg:max-w-md w-full flex-shrink-0 relative">
+                    <Image
+                      className="h-full w-full object-cover"
+                      src={"https:" + items.fields.file.url}
+                      fill={true}
+                      sizes="100%"
+                      alt="Event"
+                    />
+                  </div>
+                ))}
               </div>
             );
           })}

@@ -1,39 +1,43 @@
 "use client";
-import GlobalApi from "@/app/Utils/GlobalApi";
+import { client } from "@/Utils/GlobalApi";
 import Accomplish from "@/components/Accomplish";
 import Banner from "@/components/Banner";
 import Featured from "@/components/Featured";
 import Gallery from "@/components/Gallery";
 import ProjectNav from "@/components/ProjectNav";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
+import { useParams } from "next/navigation";
 
-function page({ params }) {
-  const [productId, setProductId] = useState([]);
-  const [project, setProject] = useState([]);
+function page() {
+  const [projects, setProjects] = useState([]);
+  const params = useParams();
+
+  const getProjects = useCallback(async () => {
+    try {
+      const resp = await client.getEntries({
+        content_type: "project",
+        "fields.slug": params.projectId,
+      });
+      const responce = resp.items;
+      setProjects(responce)
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
   useEffect(() => {
-    getProductById();
-    getProjectContent();
-  }, [params?.projectId]);
+    getProjects();
+  }, [getProjects]);
 
-  const getProductById = () => {
-    GlobalApi.getProjectbyId(params?.projectId).then((resp) => {
-      setProductId(resp.data.data);
-    });
-  };
-
-  const getProjectContent = () => {
-    GlobalApi.getProject().then((resp) => {
-      setProject(resp.data.data);
-    });
-  };
-  
   return (
     <main className="overflow-visible">
-      <Banner headValues={productId} />
-      <Featured bannerImg={productId} />
-      <Accomplish individualValue={productId} />
-      <Gallery images={productId} />
-      <ProjectNav page={params?.projectId} final={project} />
+      <Banner headValues={projects} />
+      <Featured bannerImg={projects} />
+      <Accomplish individualValue={ projects} />
+      <Gallery values={projects} />
+      <ProjectNav 
+      page={params?.projectId}
+       />
     </main>
   );
 }

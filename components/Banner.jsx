@@ -3,8 +3,10 @@ import Comment from "@/imgs/comments.png";
 import Top from "@/imgs/projects-top.png";
 import Sketch from "@/imgs/icons/Sketch-annotation.svg";
 import Image from "next/image";
+import { client } from "@/Utils/GlobalApi";
 
 function Banner({ headValues }) {
+
   return (
     <section className="px-5 xl:px-24 sm:px-16 pt-24 sm:pt-32">
       <div className="h-9 rounded-2xl overflow-hidden mb-20">
@@ -16,10 +18,14 @@ function Banner({ headValues }) {
             <Image src={Sketch} alt="Sketch" />
           </div>
           <h1 className="text-4xl lg:text-5xl xl:text-7xl capitalize">
-            {headValues.attributes?.title}
+            {headValues.map((items, _) => (
+              <span key={_}> {items.fields.title}</span>
+            ))}
           </h1>
           <p className="text-sm mt-3 lg:text-base capitalize">
-            {headValues.attributes?.description}
+            {headValues.map((items, _) => (
+              <span key={_}> {items.fields.description}</span>
+            ))}
           </p>
         </div>
         <div>

@@ -1,21 +1,38 @@
-'use client'
-import GlobalApi from "@/app/Utils/GlobalApi";
+"use client";
+
+import { client } from "@/Utils/GlobalApi";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 
 function Awards() {
   const [award, setAward] = useState([]);
-
-  useEffect(() => {
-    getAwardContent();
+  const cleanUpAward = useCallback((rawData) => {
+    const cleanAward = rawData.map((item) => {
+      const { sys, fields } = item;
+      const { id } = sys;
+      const title = fields.title;
+      const image = fields.image.fields.file.url;
+      const update = { id, title, image };
+      return update;
+    });
+    setAward(cleanAward);
   }, []);
 
-  const getAwardContent = () => {
-    GlobalApi.getAward().then((resp) => {
-      setAward(resp.data.data[0].attributes.images.data);
-    });
-  };
+  const getAward = useCallback(async () => {
+    try {
+      const resp = await client.getEntries({ content_type: "awards" });
+      const responce = resp.items;
+      if (responce) {
+        cleanUpAward(responce);
+      } else setAward([]);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [cleanUpAward]);
 
+  useEffect(() => {
+    getAward();
+  }, [getAward]);
 
   return (
     <section
@@ -23,9 +40,7 @@ function Awards() {
       id="awards"
     >
       <div>
-        <h3
-          className="lg:text-4xl sm:text-3xl text-2xl text-center"
-        >
+        <h3 className="lg:text-4xl sm:text-3xl text-2xl text-center">
           Award and Honors Received
         </h3>
       </div>
@@ -38,10 +53,10 @@ function Awards() {
             >
               <Image
                 className="h-full w-full object-cover object-center group-hover/awards:scale-125 transition duration-500 ease-out"
-                src={awardImg.attributes?.url}
+                src={'https:' + awardImg.image}
                 alt="Awards Gotten"
                 fill={true}
-                size='100%'
+                size="100%"
               />
             </div>
           );

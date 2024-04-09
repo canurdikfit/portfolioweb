@@ -1,11 +1,11 @@
 "use client";
-import GlobalApi from "@/app/Utils/GlobalApi";
+import { client } from "@/Utils/GlobalApi";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 
 function Carousel({ pageName }) {
   const [current, setCurrent] = useState(2);
-  const [slider, setSlider] = useState([]);
+  const [carouselSlider, setCarouselSlider] = useState([]);
 
   const swipe = () => {
     setCurrent(current === 4 ? 0 : current + 1);
@@ -17,29 +17,33 @@ function Carousel({ pageName }) {
     }, 5000);
   });
 
-  useEffect(() => {
-    getSliderContent();
+  const getCarouselSlides = useCallback(async () => {
+    try {
+      const resp = await client.getEntries({ content_type: "carousel" });
+      const responce = resp.items;
+      setCarouselSlider(responce);
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
 
-  const getSliderContent = () => {
-    GlobalApi.getSlider().then((resp) => {
-      setSlider(resp.data.data);
-    });
-  };
+  useEffect(() => {
+    getCarouselSlides();
+  }, [getCarouselSlides]);
 
   return (
     <section className="relative w-screen h-[85vh] md:h-[90vh] lg:h-screen overflow-hidden">
-      {slider.map((item, key) => (
+      {carouselSlider.map((item, key) => (
         <div
           className={`h-full ${
-            item.attributes.pageName === pageName ? "" : "hidden"
+            item.fields?.pageName === pageName ? "" : "hidden"
           }`}
           key={key}
         >
-          {item.attributes.pageName === pageName && (
+          {item.fields?.pageName === pageName && (
             <div className="flex h-full w-screen after:absolute after:h-full after:w-full after:bg-gradient-to-r after:from-black/75 after:from-5% after:top-0 after:left-0 after:bottom-0 ">
               <div className="relative h-full w-full">
-                {item.attributes.images.data.map((image, index) => {
+                {item.fields?.carouselImages.map((image, index) => {
                   return (
                     <div
                       key={index}
@@ -51,7 +55,7 @@ function Carousel({ pageName }) {
                     >
                       <Image
                         className="object-cover object-center"
-                        src={image.attributes?.url}
+                        src={"https:" + image.fields?.file.url}
                         quality={100}
                         fill={true}
                         sizes="100%"
@@ -63,7 +67,7 @@ function Carousel({ pageName }) {
                 })}
               </div>
               <div className="absolute bottom-7 sm:bottom-10 left-1/2 -translate-x-1/2 flex items-center justify-center gap-2 z-10">
-                {item.attributes.images.data.map((_, index) => {
+                {item.fields?.carouselImages.map((_, index) => {
                   return (
                     <div
                       key={index}

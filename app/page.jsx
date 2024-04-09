@@ -9,7 +9,7 @@ import Testimonial from "@/components/Testimonial";
 export default function Home() {
   return (
     <main>
-      <Carousel pageName={'Home'}/>
+      <Carousel pageName={"Home"} />
       <About />
       <Accomplishmet />
       <Career />
