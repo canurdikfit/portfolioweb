@@ -3,7 +3,7 @@ import Image from "next/image";
 import React, { useRef, useState, useEffect, useCallback } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import { Autoplay } from "swiper/modules";
 import AnkaraImg from "@/imgs/ankara.png";
 import Testimonia from "@/imgs/icons/testimonial.svg";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
