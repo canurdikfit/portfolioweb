@@ -1,14 +1,14 @@
 import Link from "next/link";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 function ProjectNavLinks({ nav, page }) {
   const [next, setNext] = useState();
   const [prev, setPrev] = useState();
 
-  const getPrevAndNext = () => {
+  const getPrevAndNext = useCallback(() => {
     setNext(page === nav.length - 1 ? nav[0] : nav[page + 1]);
     setPrev(page === 0 ? nav[nav.length - 1] : nav[page - 1]);
-  };
+  }, [prev, next]);
 
   useEffect(() => {
     getPrevAndNext();
