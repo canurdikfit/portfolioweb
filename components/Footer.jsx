@@ -76,14 +76,14 @@ const FooterLinks = [
   },
   {
     name: "Profile",
-    to: "/Profile",
+    to: "/profile",
   },
   {
     name: "Project",
-    to: "/Projects",
+    to: "/projects",
   },
   {
     name: "Contact",
-    to: "/Contact",
+    to: "/contact",
   },
 ];
