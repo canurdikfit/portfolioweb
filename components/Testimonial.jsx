@@ -72,10 +72,10 @@ function Testimonial() {
         />
         <div className="relative z-10 h-full w-screen bg-gradient-to-br from-black/80 inset-y-0 inset-x-0 grid items-center md:grid-cols-3 px-5 xl:px-24 sm:px-16 md:gap-14 gap-5 py-20">
           <div className="md:col-span-1 md:border-r-2 border-white text-center md:text-left">
-            <p className="text-base">
+            <p className="text-base text-white">
               Over 16,000 <br className="hidden md:block" /> impacted MSME’s
             </p>
-            <h3 className="lg:mt-10 md:mt-6 mt-3 text-2xl md:text-4xl lg:text-5xl">
+            <h3 className="lg:mt-10 md:mt-6 mt-3 text-2xl md:text-4xl lg:text-5xl text-white">
               Testimonials
             </h3>
           </div>
@@ -103,11 +103,11 @@ function Testimonial() {
                 className="mySwiper w-full"
               >
                 {testimon.map((item, index) => (
-                  <SwiperSlide key={index} className="text-base md:text-lg">
+                  <SwiperSlide key={index} className="text-base md:text-lg text-white">
                     {item.comment} - <b>{item.person}</b>
                   </SwiperSlide>
                 ))}
-                <SwiperSlide className="text-base md:text-lg">
+                <SwiperSlide className="text-base md:text-lg text-white">
                   Isimeme Whyte consistently demonstrates an unwavering
                   commitment to excellence, setting a remarkable standard for
                   others to aspire to. - <b>Agbonyinma Ernest Nosakhare</b>
